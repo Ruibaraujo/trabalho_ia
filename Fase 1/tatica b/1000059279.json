@@ -1,0 +1,15 @@
+[
+  {
+    "class_id": 3,
+    "class_name": "glove_partial",
+    "confidence": 0.4517,
+    "bbox": {
+      "x1": 4.95,
+      "y1": 1578.95,
+      "x2": 2517.59,
+      "y2": 4077.93,
+      "width": 2512.63,
+      "height": 2498.97
+    }
+  }
+]

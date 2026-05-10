@@ -1,0 +1,15 @@
+[
+  {
+    "class_id": 5,
+    "class_name": "gloves_damaged",
+    "confidence": 0.9185,
+    "bbox": {
+      "x1": 401.13,
+      "y1": 705.86,
+      "x2": 2647.83,
+      "y2": 2948.05,
+      "width": 2246.71,
+      "height": 2242.19
+    }
+  }
+]

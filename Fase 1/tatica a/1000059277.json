@@ -1,0 +1,28 @@
+[
+  {
+    "class_id": 2,
+    "class_name": "glove_on",
+    "confidence": 0.6426,
+    "bbox": {
+      "x1": 398.15,
+      "y1": 697.99,
+      "x2": 2671.44,
+      "y2": 2962.02,
+      "width": 2273.29,
+      "height": 2264.04
+    }
+  },
+  {
+    "class_id": 1,
+    "class_name": "glove_off",
+    "confidence": 0.623,
+    "bbox": {
+      "x1": 407.93,
+      "y1": 658.46,
+      "x2": 2643.97,
+      "y2": 2949.12,
+      "width": 2236.04,
+      "height": 2290.66
+    }
+  }
+]
