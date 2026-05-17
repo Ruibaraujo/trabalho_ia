@@ -1,0 +1,96 @@
+{
+  "model_name": "glove-compliance-detector-yolov8n-tatica-c",
+  "version": "1.0.0",
+  "task": "object_detection",
+  "framework": "ultralytics-yolov8n",
+  "weights": {
+    "best": "drive/MyDrive/Colab Notebooks/gloves_project/runs/yolov8n_tatica_c/weights/best.pt"
+  },
+  "classes": [
+    { "id": 0, "name": "glove_not_fitted",    "description": "Luvas presentes mas não devidamente ajustadas" },
+    { "id": 1, "name": "glove_off",           "description": "Ausência total de luvas — Risco Crítico" },
+    { "id": 2, "name": "glove_on",            "description": "Luvas corretamente calçadas e ajustadas" },
+    { "id": 3, "name": "glove_partial",       "description": "Luvas parcialmente calçadas, sem proteção total da mão" },
+    { "id": 4, "name": "gloves_contaminated", "description": "Luvas com sinais de contaminação por agentes externos, líquidos ou descoloração química" },
+    { "id": 5, "name": "gloves_damaged",      "description": "Luvas com danos físicos visíveis, como rasgos ou perfurações" }
+  ],
+  "intended_use": {
+    "summary": "Monitorizar e auditar autonomamente o estado e conformidade das luvas de operadores em bancadas de trabalho farmacêuticas e laboratórios, prevenindo contaminações cruzadas e salvaguardando a integridade física dos trabalhadores.",
+    "environment": ["pharmaceutical_workbench", "cleanroom", "gowning_area", "primary_filling_line"],
+    "out_of_scope": [
+      "Deteção de outros componentes do traje laboratorial (batas, máscaras, óculos)",
+      "Luvas de cores diferentes da tonalidade azul padrão utilizada no treino",
+      "Ângulos de câmara não-zenitais"
+    ]
+  },
+  "data": {
+    "dataset_format": "yolov8",
+    "image_count": {
+      "train_pre_augmentation": 6128,
+      "train_synthetic_generated": 10460,
+      "train_post_augmentation": 14748,
+      "test": "10% do dataset original, estritamente isolado"
+    },
+    "source": "collected_by_research_group",
+    "augmentations": ["HorizontalFlip", "VerticalFlip", "RandomRotate90", "RandomBrightnessContrast", "GaussianBlur"],
+    "labeling_notes": "Bounding boxes cobrem a totalidade da extensão visível do objeto. Limiar de visibilidade mínima de 30%; boxes abaixo desse limite após transformações geométricas foram automaticamente descartadas."
+  },
+  "training": {
+    "base_model": "yolov8n.pt",
+    "pretrained": true,
+    "epochs": 100,
+    "patience": 50,
+    "batch": 16,
+    "imgsz": 640,
+    "optimizer": "SGD",
+    "lr0": 0.001,
+    "lrf": 0.01,
+    "momentum": 0.937,
+    "weight_decay": 0.0005,
+    "warmup_epochs": 3.0,
+    "mosaic": 0.5,
+    "seed": 0,
+    "deterministic": true,
+    "amp": true,
+    "environment": "Kaggle Notebook (2x GPU NVIDIA T4)"
+  },
+  "evaluation": {
+    "test_metrics": {
+      "map50": 0.9916,
+      "map5095": 0.9353,
+      "precision": 0.9904,
+      "recall": 0.9861,
+      "f1": 0.9882,
+      "per_class": {
+        "glove_not_fitted":    { "p": 0.956, "r": 0.917, "f1": 0.936, "ap50": 0.975, "ap5095": 0.854 },
+        "glove_off":           { "p": 0.997, "r": 1.000, "f1": 0.998, "ap50": 0.995, "ap5095": 0.909 },
+        "glove_on":            { "p": 0.999, "r": 1.000, "f1": 0.999, "ap50": 0.995, "ap5095": 0.979 },
+        "glove_partial":       { "p": 0.996, "r": 1.000, "f1": 0.998, "ap50": 0.995, "ap5095": 0.937 },
+        "gloves_contaminated": { "p": 0.998, "r": 1.000, "f1": 0.999, "ap50": 0.995, "ap5095": 0.979 },
+        "gloves_damaged":      { "p": 0.997, "r": 1.000, "f1": 0.999, "ap50": 0.995, "ap5095": 0.954 }
+      }
+    },
+    "recommended_thresholds": { "confidence": 0.656, "nms_iou": 0.70 }
+  },
+  "io": {
+    "input": { "type": "image", "resolution": "640x640", "color_space": "RGB" },
+    "output": {
+      "bbox": "xyxy",
+      "fields": ["class_id", "class_name", "confidence", "bbox.x1", "bbox.y1", "bbox.x2", "bbox.y2", "bbox.width", "bbox.height"]
+    }
+  },
+  "limitations": [
+    "glove_not_fitted apresenta Recall de 0.917 — 8% de falsos negativos (fuga para background).",
+    "50% do background é classificado como gloves_contaminated, 25% como glove_not_fitted e 25% como glove_partial.",
+    "Sem confusão entre classes — todos os erros residem exclusivamente na linha e coluna de background.",
+    "Testes de inferência com imagens externas revelam falhas em gloves_contaminated (sem deteção em pelo menos um caso).",
+    "Reflexo lumínico (glare) em superfícies de aço inoxidável pode distorcer bounding boxes.",
+    "Exclusivamente validado com luvas azuis de nitrilo padrão."
+  ],
+  "runtime": {
+    "model_size_mb": 6.3
+  },
+  "license": {
+    "notes": "Dataset recolhido pelos membros do grupo de investigação. Não contém rostos identificáveis intencionais."
+  }
+}

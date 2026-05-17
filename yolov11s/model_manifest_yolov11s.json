@@ -38,21 +38,54 @@
     "evaluation": {
       "test_set_description": "Subconjunto estritamente isolado (10%), sem transformações sintéticas, totalmente oculto durante o treino.",
       "test_metrics": {
-        "precision_macro": 1.00,
-        "precision_macro_at_confidence": 0.979,
-        "recall_macro": 0.99,
-        "recall_macro_at_confidence": 0.000,
-        "map50": 0.988,
-        "map5095": "não medido no conjunto de teste",
-        "f1_macro": 0.99,
-        "f1_macro_at_confidence": 0.183,
-        "per_class_ap50": {
-          "glove_on": 0.995,
-          "glove_partial": 0.995,
-          "glove_not_fitted": 0.953,
-          "glove_off": 0.995,
-          "gloves_contaminated": 0.995,
-          "gloves_damaged": 0.995
+        "map50": 0.9881,
+        "map5095": 0.9322,
+        "precision": 0.9885,
+        "recall": 0.9917,
+        "f1": 0.9901,
+        "per_class": {
+          "glove_not_fitted": {
+            "p": 0.958,
+            "r": 0.95,
+            "f1": 0.954,
+            "ap50": 0.953,
+            "ap5095": 0.82
+          },
+          "glove_off": {
+            "p": 1,
+            "r": 1,
+            "f1": 1,
+            "ap50": 0.995,
+            "ap5095": 0.912
+          },
+          "glove_on": {
+            "p": 0.996,
+            "r": 1,
+            "f1": 0.998,
+            "ap50": 0.995,
+            "ap5095": 0.983
+          },
+          "glove_partial": {
+            "p": 0.993,
+            "r": 1,
+            "f1": 0.996,
+            "ap50": 0.995,
+            "ap5095": 0.942
+          },
+          "gloves_contaminated": {
+            "p": 0.992,
+            "r": 1,
+            "f1": 0.996,
+            "ap50": 0.995,
+            "ap5095": 0.98
+          },
+          "gloves_damaged": {
+            "p": 0.992,
+            "r": 1,
+            "f1": 0.996,
+            "ap50": 0.995,
+            "ap5095": 0.958
+          }
         }
       },
       "recommended_thresholds": {

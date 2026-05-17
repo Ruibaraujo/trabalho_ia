@@ -38,21 +38,27 @@
 
 ## 4. Evaluation
 - **Test set description:** Separado na proporção original de 10%, correspondendo a um subconjunto estritamente isolado de imagens que não sofreram transformações sintéticas de treino e permaneceram totalmente ocultas à rede.
-- **Metrics (Métricas Reais Consolidadas das Curvas do YOLOv8s — conjunto de teste):**
-  - **Macro-Métricas Globais (All Classes):**
-    - `Precision (Macro)`: 1.00 (@ confidence 0.982)
-    - `Recall (Macro)`: 1.00 (@ confidence 0.000)
-    - `mAP@0.5`: 0.994
-    - `mAP@0.5:0.95`: não disponível diretamente das curvas de teste
-  - **AP@0.5 por Classe (curva Precision-Recall):**
-    - `glove_on`: 0.995
-    - `glove_partial`: 0.995
-    - `glove_not_fitted`: 0.992
-    - `glove_off`: 0.995
-    - `gloves_contaminated`: 0.995
-    - `gloves_damaged`: 0.995
-  - **F1-Score Global (@ confiança ótima 0.828 — pico da curva F1):** 0.99
-- **Qualitative analysis:** A matriz de confusão normalizada confirma excelente discriminação em `glove_off`, `glove_on`, `glove_partial`, `gloves_contaminated` e `gloves_damaged`, todas com 1.00 na diagonal. A principal limitação é na classe `glove_not_fitted` (0.92), onde 8% das instâncias escapam para background (2 instâncias em 24). Em termos de falsos positivos, 67% do background é classificado como `gloves_contaminated` (4 instâncias absolutas), 17% como `glove_not_fitted` e 17% como `glove_partial` (1 instância cada), sendo `gloves_contaminated` a classe com maior atração de falsos positivos de background — padrão consistente com os modelos YOLOv8m, YOLOv11s e YOLOv11m avaliados.
+- **Métricas Globais (All Classes):**
+| Métrica        | Valor  |
+|----------------|--------|
+| `mAP@0.5`      | 0.9945 |
+| `mAP@0.5:0.95` | 0.9419 |
+| `Precision`    | 0.9936 |
+| `Recall`       | 0.9859 |
+| `F1`           | 0.9897 |
+
+- **Métricas por Classe:**
+| Classe                | P      | R      | F1     | AP@0.5 | AP@0.5:0.95 |
+|-----------------------|--------|--------|--------|--------|-------------|
+| `glove_not_fitted`    | 0.964  | 0.917  | 0.940  | 0.992  | 0.907       |
+| `glove_off`           | 0.999  | 1.000  | 1.000  | 0.995  | 0.902       |
+| `glove_on`            | 1.000  | 1.000  | 1.000  | 0.995  | 0.980       |
+| `glove_partial`       | 0.999  | 1.000  | 1.000  | 0.995  | 0.935       |
+| `gloves_contaminated` | 1.000  | 0.999  | 0.999  | 0.995  | 0.981       |
+| `gloves_damaged`      | 0.999  | 1.000  | 1.000  | 0.995  | 0.945       |
+ 
+- **F1-Score Global (@ confiança ótima 0.828 — pico da curva F1):** 0.99
+- **Qualitative analysis:** A matriz de confusão normalizada confirma excelente discriminação em `glove_off`, `glove_on`, `glove_partial`, `gloves_contaminated` e `gloves_damaged`, todas com 1.00 na diagonal. A principal limitação é na classe `glove_not_fitted` (Recall 0.917), onde 8% das instâncias escapam para background. Em termos de falsos positivos, 67% do background é classificado como `gloves_contaminated`, 17% como `glove_not_fitted` e 17% como `glove_partial`, sendo `gloves_contaminated` a classe com maior atração de falsos positivos de background.
 - **Recommended confidence threshold(s):** O limiar ótimo segundo a curva F1 é `conf=0.828`, onde o modelo atinge F1=0.99 para todas as classes. Para deployment operacional, o threshold `conf=0.40` pode ser preferível em contexto de segurança industrial para maximizar recall.
 
 ## 5. Limitations and Failure Modes
