@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 6
+names: ['glove_not_fitted', 'glove_off', 'glove_on', 'glove_partial', 'gloves_contaminated', 'gloves_damaged']
+
+roboflow:
+  workspace: ruis-workspace-qvcoy
+  project: trabalho_ia-opgfv
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/ruis-workspace-qvcoy/trabalho_ia-opgfv/dataset/2

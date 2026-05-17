@@ -1,0 +1,88 @@
+{
+    "model_name": "glove-compliance-detector-yolov8m",
+    "version": "1.0.0",
+    "task": "object_detection",
+    "framework": "ultralytics-yolov8m",
+    "weights": {
+      "best": "drive/MyDrive/Colab Notebooks/gloves_project/runs/yolov8m/weights/best.pt"
+    },
+    "classes": [
+      { "id": 0, "name": "glove_not_fitted",    "description": "Luvas presentes mas não devidamente ajustadas" },
+      { "id": 1, "name": "glove_off",           "description": "Ausência total de luvas — Risco Crítico" },
+      { "id": 2, "name": "glove_on",            "description": "Luvas corretamente calçadas e ajustadas" },
+      { "id": 3, "name": "glove_partial",       "description": "Luvas parcialmente calçadas, sem proteção total da mão" },
+      { "id": 4, "name": "gloves_contaminated", "description": "Luvas com sinais de contaminação por agentes externos, líquidos ou descoloração química" },
+      { "id": 5, "name": "gloves_damaged",      "description": "Luvas com danos físicos visíveis, como rasgos ou perfurações" }
+    ],
+    "intended_use": {
+      "summary": "Monitorizar e auditar autonomamente o estado e conformidade das luvas de operadores em bancadas de trabalho farmacêuticas e laboratórios, prevenindo contaminações cruzadas e salvaguardando a integridade física dos trabalhadores.",
+      "environment": ["pharmaceutical_workbench", "cleanroom", "gowning_area", "primary_filling_line"],
+      "out_of_scope": [
+        "Deteção de outros componentes do traje laboratorial (batas, máscaras, óculos)",
+        "Luvas de cores diferentes da tonalidade azul padrão utilizada no treino",
+        "Ângulos de câmara não-zenitais"
+      ]
+    },
+    "data": {
+      "dataset_format": "yolov8",
+      "image_count": {
+        "train_pre_augmentation": 6128,
+        "train_synthetic_generated": 10460,
+        "train_post_augmentation": 14748,
+        "test": "10% do dataset original, estritamente isolado"
+      },
+      "source": "collected_by_research_group",
+      "augmentations": ["HorizontalFlip", "VerticalFlip", "RandomRotate90", "RandomBrightnessContrast", "GaussianBlur"],
+      "labeling_notes": "Bounding boxes cobrem a totalidade da extensão visível do objeto. Limiar de visibilidade mínima de 30%; boxes abaixo desse limite após transformações geométricas foram automaticamente descartadas."
+    },
+    "evaluation": {
+      "test_set_description": "Subconjunto estritamente isolado (10%), sem transformações sintéticas, totalmente oculto durante o treino.",
+      "test_metrics": {
+        "precision_macro": 1.00,
+        "precision_macro_at_confidence": 0.978,
+        "recall_macro": 0.99,
+        "recall_macro_at_confidence": 0.000,
+        "map50": 0.987,
+        "map5095": "não medido no conjunto de teste",
+        "f1_macro": 0.99,
+        "f1_macro_at_confidence": 0.835,
+        "per_class_ap50": {
+          "glove_on": 0.995,
+          "glove_partial": 0.995,
+          "glove_not_fitted": 0.949,
+          "glove_off": 0.995,
+          "gloves_contaminated": 0.995,
+          "gloves_damaged": 0.995
+        }
+      },
+      "recommended_thresholds": {
+        "confidence_optimal_f1": 0.835,
+        "confidence_optimal_f1_note": "Pico da curva macro F1 do conjunto de teste, onde F1=0.99 para todas as classes.",
+        "confidence_operational": 0.40,
+        "confidence_operational_note": "Threshold operacional que maximiza recall em contexto de segurança industrial.",
+        "nms_iou": 0.70,
+        "nms_iou_note": "Valor utilizado no script de inferência de produção. Não validado experimentalmente contra alternativas."
+      }
+    },
+    "io": {
+      "input": { "type": "image", "resolution": "640x640", "color_space": "RGB" },
+      "output": {
+        "bbox": "xyxy",
+        "fields": ["class_id", "class_name", "confidence", "bbox.x1", "bbox.y1", "bbox.x2", "bbox.y2", "bbox.width", "bbox.height"]
+      }
+    },
+    "limitations": [
+      "glove_not_fitted apresenta 8% de falsos negativos (fuga para background).",
+      "67% do background é classificado como gloves_contaminated (falsos positivos elevados).",
+      "33% do background é classificado como glove_not_fitted — mais elevado do que no YOLOv8s (17%).",
+      "Reflexo lumínico (glare) em superfícies de aço inoxidável pode distorcer bounding boxes.",
+      "Motion blur induzido por movimento rápido das mãos pode causar falsos negativos.",
+      "Exclusivamente validado com luvas azuis de nitrilo padrão."
+    ],
+    "runtime": {
+      "model_size_mb": "52" 
+    },
+    "license": {
+      "notes": "Dataset recolhido pelos membros do grupo de investigação. Não contém rostos identificáveis intencionais."
+    }
+  }
