@@ -88,7 +88,10 @@
     "Exclusivamente validado com luvas azuis de nitrilo padrão."
   ],
   "runtime": {
-    "model_size_mb": 6.3
+    "model_size_mb": 6.3,
+    "execution_environment": "Intel(R) Xeon(R) CPU @ 2.00GHz, GPU: Tesla T4",
+    "latency_ms_cpu": "66.4 ± 3.0",
+    "latency_ms_gpu": "9.2 ± 0.1"
   },
   "license": {
     "notes": "Dataset recolhido pelos membros do grupo de investigação. Não contém rostos identificáveis intencionais."

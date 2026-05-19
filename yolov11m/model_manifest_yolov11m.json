@@ -112,8 +112,10 @@
       "Exclusivamente validado com luvas azuis de nitrilo padrão."
     ],
     "runtime": {
-      "model_size_mb": "verificar tamanho do ficheiro best.pt",
-      "latency_ms_gpu": "não medido experimentalmente — recomendado benchmark no hardware alvo antes de deployment"
+      "model_size_mb": 38.7,
+      "execution_environment": "Intel(R) Xeon(R) CPU @ 2.00GHz, GPU: Tesla T4",
+      "latency_ms_cpu": "332.7 ± 18.33",
+      "latency_ms_gpu": "23.9 ± 0.5"
     },
     "license": {
       "notes": "Dataset recolhido pelos membros do grupo de investigação. Não contém rostos identificáveis intencionais."
