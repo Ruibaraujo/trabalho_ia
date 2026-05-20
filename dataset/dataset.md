@@ -31,14 +31,14 @@ A divisão foi aplicada de forma estratificada pelo Roboflow, mantendo a propor�
 
 | ID | Nome                  | Descrição resumida                                                    |
 |----|-----------------------|-----------------------------------------------------------------------|
-| 0  | `glove_not_fitted`    | Luva presente na mão mas não devidamente ajustada                    |
-| 1  | `glove_off`           | Mão sem qualquer luva — ausência total de proteção (Risco Crítico)   |
-| 2  | `glove_on`            | Luva corretamente calçada e ajustada                                 |
-| 3  | `glove_partial`       | Luva parcialmente calçada, sem cobertura total da mão                |
-| 4  | `gloves_contaminated` | Luva com sinais visíveis de contaminação (líquidos, descoloração)    |
-| 5  | `gloves_damaged`      | Luva com danos físicos visíveis (rasgos, perfurações)                |
+| 0  | `glove_not_fitted`    | Luva presente na mão mas não devidamente colocada                     |
+| 1  | `glove_off`           | Mão sem qualquer luva — ausência total de proteção                    |
+| 2  | `glove_on`            | Luva corretamente calçada e ajustada                                  |
+| 3  | `glove_partial`       | Luva parcialmente calçada, sem cobertura total da mão                 |
+| 4  | `gloves_contaminated` | Luva com sinais visíveis de contaminação (líquidos, descoloração)     |
+| 5  | `gloves_damaged`      | Luva com danos físicos visíveis (rasgos, perfurações)                 |
 
-Todas as classes referem-se exclusivamente a **luvas azuis de nitrilo**, que é o equipamento de proteção individual (EPI) padrão utilizado nos cenários capturados. Luvas de outras cores ou materiais estão explicitamente fora do âmbito deste dataset.
+Todas as classes referem-se exclusivamente a **luvas azuis**, que é o equipamento de proteção individual (EPI) padrão utilizado nos cenários capturados. Luvas de outras cores ou materiais estão explicitamente fora do âmbito deste dataset.
 
 ---
 
@@ -54,7 +54,7 @@ Todas as classes referem-se exclusivamente a **luvas azuis de nitrilo**, que é 
 | `gloves_damaged`      |  5 |    685 |       196 |    98 |   979 |   12,9% |
 | **Total**             |    |**5.308**|  **1.525**| **771**|**7.604**|**100%**|
 
-> **Nota de desbalanceamento:** A classe `glove_not_fitted` é a menos representada (3,4% das anotações). Este desequilíbrio reflete a dificuldade prática em capturar este estado de forma sistemática e consistente — existem inúmeras variações morfológicas possíveis de uma luva mal ajustada, e a fronteira visual com `glove_partial` pode ser ténue. A decisão do grupo foi manter um número reduzido de exemplos desta classe em vez de introduzir exemplos ambíguos que pudessem prejudicar a aprendizagem.
+> **Nota de desbalanceamento:** A classe `glove_not_fitted` é a menos representada (3,4% das anotações). Este desequilíbrio reflete a dificuldade prática em capturar este estado de forma sistemática e consistente. Existem inúmeras variações morfológicas possíveis de uma luva mal ajustada, e a fronteira visual com `glove_partial` pode ser ténue. A decisão do grupo foi manter um número reduzido de exemplos desta classe em vez de introduzir exemplos ambíguos que pudessem prejudicar a aprendizagem.
 
 ---
 
@@ -98,9 +98,9 @@ Onde `cx`, `cy`, `width` e `height` são valores normalizados entre 0.0 e 1.0 re
 
 - **`glove_not_fitted` (ID 0):** Luva colocada na mão mas sem estar devidamente ajustada — pode estar enrugada, com folgas excessivas, dedos mal alinhados ou pulso não vedado. A mão está coberta mas a proteção é inadequada.
 
-- **`gloves_contaminated` (ID 4):** Luva com marcas visíveis de contaminação — manchas, descoloração química ou resíduos líquidos ou sólidos na superfície. Foram anotados **apenas casos em que a contaminação era claramente visível a olho nu** na imagem, para evitar falsos positivos derivados de ruído do sensor ou sombras.
+- **`gloves_contaminated` (ID 4):** Luva com marcas visíveis de contaminação — manchas, descoloração química ou resíduos líquidos ou sólidos na superfície. Foram anotados **apenas casos em que a contaminação era claramente visível a olho nu** na imagem.
 
-- **`gloves_damaged` (ID 5):** Luva com danos estruturais visíveis — rasgos, perfurações, cortes ou deformações. Tal como na classe anterior, foram anotados **apenas danos claramente visíveis a olho nu**, evitando ambiguidade com grão de imagem ou artefactos de compressão JPEG.
+- **`gloves_damaged` (ID 5):** Luva com danos estruturais visíveis, como rasgos, perfurações ou cortes. Tal como na classe anterior, foram anotados **apenas danos claramente visíveis a olho nu**.
 
 ### Regra de visibilidade mínima
 
@@ -126,7 +126,7 @@ A classe `glove_not_fitted` apresenta um número de exemplos significativamente 
 
 ### 7.3 Photographer bias
 
-A recolha de dados foi dividida por classe entre os membros do grupo, com cada membro responsável por duas classes específicas. Este protocolo introduziu um efeito conhecido em visão computacional como *photographer bias*: o modelo aprende não apenas as características visuais da classe, mas também características específicas do fotógrafo — forma e dimensão da mão, tom de pele e condições de iluminação do ambiente recriado.
+A recolha de dados foi dividida por classe entre os membros do grupo, com cada membro responsável por duas classes específicas. Este protocolo introduziu um efeito conhecido em visão computacional como *photographer bias*: o modelo aprende não apenas as características visuais da classe, mas também características específicas do fotógrafo, como a forma e dimensão da mão, tom de pele, condições de iluminação e do ambiente recriado.
 
 Este efeito tem duas consequências importantes:
 
