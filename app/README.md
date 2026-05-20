@@ -107,14 +107,3 @@ ngrok http 8501
 > ⚠️ **Importante:** Os quatro ficheiros `.pt` devem estar obrigatoriamente na mesma pasta que o `app6.py`, caso contrário a aplicação não consegue carregar os modelos.
 
 ---
-
-## 📦 Conteúdo do requirements.txt
-
-```
-streamlit
-ultralytics
-opencv-python
-numpy
-pandas
-pillow
-```
