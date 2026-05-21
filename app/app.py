@@ -38,6 +38,10 @@ st.markdown("---")
 # do CWD em que o Streamlit é arrancado.
 MODELS_DIR = Path(__file__).resolve().parent.parent / "modelos"
 
+# Pasta default das imagens de teste do dataset (usada no tab Dataset).
+# Resolvida a partir do __file__ para ser independente do CWD.
+DATASET_TEST_DIR = Path(__file__).resolve().parent.parent / "dataset" / "test" / "images"
+
 
 def _ler_manifesto(pasta_modelo: Path) -> dict:
     """Lê o primeiro model_manifest_*.json encontrado na pasta. {} se não houver ou falhar."""
@@ -544,7 +548,7 @@ with tab3:
 
     pasta_teste = st.text_input(
         "Pasta de imagens de teste:",
-        value="dataset/test/images"
+        value=str(DATASET_TEST_DIR)
     )
 
     col1, col2 = st.columns([1, 3])
